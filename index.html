@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+</head>
+<body>
+	<h1>Uniapp Client</h1>
+  <button onclick="captureImage()">拍照</button>
+	<!-- uni 的 SDK -->
+	<!-- 需要把 uni.webview.1.5.4.js 下载到自己的服务器 -->
+	<!-- 不管是在小程序下还是在app下，使用uni的api，需要引入 uni-webview-js -->
+	<script type="text/javascript" src="https://unpkg.com/@dcloudio/uni-webview-js@0.0.3/index.js"></script>
+	<script>
+    function plusReady(callback) {  
+        if (window.plus) {  
+            callback();  
+        } else {  
+            document.addEventListener('plusready', callback);  
+        }  
+    };
+
+    function captureImage(){
+      let cmr = plus.camera.getCamera();
+      let res = cmr.supportedImageResolutions[0];
+      let fmt = cmr.supportedImageFormats[0];
+      cmr.captureImage( function( path ){
+          alert( "Capture image success: " + path );  
+        },
+        function( error ) {
+          alert( "Capture image failed: " + error.message );
+        },
+        {resolution:res,format:fmt}
+      );
+    }
+
+		// 待触发 `UniAppJSBridgeReady` 事件后，即可调用 uni 的 API。
+		document.addEventListener('UniAppJSBridgeReady', function() {
+			uni.getEnv(function(res) {
+				console.log('UniAppJSBridgeReady 当前环境：' + JSON.stringify(res));
+			});
+		})
+
+    plusReady(function () {  
+      console.log('appid',plus.runtime.appid);
+    });
+	</script>
+</body>
+</html>
