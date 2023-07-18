@@ -40,6 +40,9 @@
 			uni.getEnv(function(res) {
 				console.log('UniAppJSBridgeReady 当前环境：' + JSON.stringify(res));
 			});
+      uni.onAppHide(function(){
+				console.log('apphide')
+			})
 		})
 
     plusReady(function () {  
